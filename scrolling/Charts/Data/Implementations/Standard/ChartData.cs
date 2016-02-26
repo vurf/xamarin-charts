@@ -72,7 +72,7 @@ namespace scrolling
 			init (xVals, dataSet == null ? null : new IChartDataSet[] { dataSet });
 		}
 
-		internal void initialize(IChartDataSet[] dataSets)
+		internal void initialize(List<IChartDataSet> dataSets)
 		{
 			checkIsLegal (dataSets);
 
@@ -95,7 +95,7 @@ namespace scrolling
 
 			for (var i = 0; i < _xVals.Count; i++)
 			{
-				sum += _xVals[i] == null ? 0 : (_xVals[i]).characters.Length;
+				sum += _xVals[i] == null ? 0 : (_xVals[i]).Length;
 			}
 
 			_xValAverageLength = (double)sum / (double)_xVals.Count;
@@ -103,7 +103,7 @@ namespace scrolling
 
 			// Checks if the combination of x-values array and DataSet array is legal or not.
 			// :param: dataSets
-		internal void checkIsLegal(IChartDataSet[] dataSets)
+        internal void checkIsLegal(List<IChartDataSet> dataSets)
 		{
 			if (dataSets == null)
 				return;
@@ -111,7 +111,7 @@ namespace scrolling
 			if (this is ScatterChartData)
 				return; 
 
-			for (var i = 0; i < dataSets.Length; i++)
+			for (var i = 0; i < dataSets.Count; i++)
 			{
 				if (dataSets[i].entryCount > _xVals.Count)
 				{

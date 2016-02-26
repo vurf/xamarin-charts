@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -81,7 +81,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
@@ -92,6 +94,23 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Charts\Components\ChartLimitLine.cs" />
+    <Compile Include="Charts\Components\ChartMarker.cs" />
+    <Compile Include="Charts\Data\IBarChartDataSet.cs" />
+    <Compile Include="Charts\Data\IBarLineScatterCandleBubbleChartDataSet.cs" />
+    <Compile Include="Charts\Data\IBubbleChartDataSet.cs" />
+    <Compile Include="Charts\Data\ICandleChartDataSet.cs" />
+    <Compile Include="Charts\Data\ILineChartDataSet.cs" />
+    <Compile Include="Charts\Data\ILineRadarChartDataSet.cs" />
+    <Compile Include="Charts\Data\ILineScatterCandleRadarChartDataSet.cs" />
+    <Compile Include="Charts\Data\IPieChartDataSet.cs" />
+    <Compile Include="Charts\Data\IRadarChartDataSet.cs" />
+    <Compile Include="Charts\Data\IScatterChartDataSet.cs" />
+    <Compile Include="Charts\Filters\ChartDataApproximatorFilter.cs" />
+    <Compile Include="Charts\Filters\ChartDataBaseFilter.cs" />
+    <Compile Include="Charts\Formatters\ChartDefaultFillFormatter.cs" />
+    <Compile Include="Charts\Formatters\ChartDefaultXAxisValueFormatter.cs" />
+    <Compile Include="Charts\Formatters\ChartXAxisValueFormatter.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="LineViewController.cs" />
@@ -119,17 +138,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Charts\" />
     <Folder Include="Charts\Animations\" />
-    <Folder Include="Charts\Charts\" />
-    <Folder Include="Charts\Components\" />
-    <Folder Include="Charts\Utils\" />
-    <Folder Include="Charts\Data\" />
-    <Folder Include="Charts\Filters\" />
-    <Folder Include="Charts\Formatters\" />
-    <Folder Include="Charts\Highlight\" />
     <Folder Include="Charts\Interface\" />
-    <Folder Include="Charts\Data\Implementations\" />
-    <Folder Include="Charts\Data\Implementations\Standard\" />
   </ItemGroup>
 </Project>

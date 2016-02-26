@@ -52,7 +52,7 @@ namespace scrolling
 		public UITextAlignment descriptionTextAlign = UITextAlignment.Right;
 
 			/// Custom position for the description text in pixels on the screen.
-		public CGPoint descriptionTextPosition = null;
+		public CGPoint descriptionTextPosition = new CGPoint();
 
 			/// font object for drawing the information text when there are no values in the chart
 		public UIFont infoFont  = UIFont.FromName("HelveticaNeue", 12.0f);

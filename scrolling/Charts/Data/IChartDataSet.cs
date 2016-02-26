@@ -20,13 +20,13 @@ namespace scrolling
 		void calcMinMax(int start, int end);
 
 		/// - returns: the minimum y-value this DataSet holds
-		double yMin { get; private set; }
+		double yMin { get; }
 
 		/// - returns: the maximum y-value this DataSet holds
-		double yMax { get; private set; }
+		double yMax { get; }
 
 		/// - returns: the number of y-values this DataSet represents
-		int entryCount { get; private set; }
+		int entryCount { get; }
 
 		/// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
 		double yValForXIndex(int x);
@@ -75,7 +75,7 @@ namespace scrolling
 		// MARK: - Styling functions and accessors
 
 		/// The label string that describes the DataSet.
-		string label { get; private set; }
+		string label { get; }
 
 		/// The axis this DataSet should be plotted against.
 		ChartYAxis.AxisDependency axisDependency  { get; private set; }
@@ -97,7 +97,7 @@ namespace scrolling
 		bool highlightEnabled { get; set; }
 
 		/// - returns: true if value highlighting is enabled for this dataset
-		bool isHighlightEnabled { get; private set; }
+		bool isHighlightEnabled { get; }
 
 		/// The formatter used to customly format the values
 		NSNumberFormatter valueFormatter { get; set; }
@@ -112,13 +112,13 @@ namespace scrolling
 		bool drawValuesEnabled { get; set; }
 
 		/// Returns true if y-value drawing is enabled, false if not
-		bool isDrawValuesEnabled { get; private set; }
+		bool isDrawValuesEnabled { get; }
 
 		/// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
 		bool visible { get; set; }
 
 		/// Returns true if this DataSet is visible inside the chart, or false if it is currently hidden.
-		bool isVisible { get; private set; }
+		bool isVisible { get; }
 	}
 }
 
