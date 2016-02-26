@@ -117,49 +117,44 @@ namespace scrolling
 
 		public CGSize getFullSize(UIFont labelFont)
 		{
-			var width = CGFloat(0.0)
-				var height = CGFloat(0.0)
+			var width = 0.0f;
+			var height = 0.0f;
 
-				var labels = self.labels
-				for (var i = 0, count = labels.count; i < count; i++)
+			var labels = this.labels;
+			for (var i = 0, count = labels.Count; i < count; i++)
+			{
+				if (labels[i] != null)
 				{
-					if (labels[i] != nil)
+					// make a step to the left
+					if (colors[i] != null)
+						width += formSize + formToTextSpace;
+
+					var size = labels [i].StringSize (labelFont);
+
+					width += size.Width;
+					height += size.Height;
+
+					if (i < count - 1)
 					{
-						// make a step to the left
-						if (colors[i] != nil)
-						{
-							width += formSize + formToTextSpace
-						}
-
-						let size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont])
-
-							width += size.width
-							height += size.height
-
-							if (i < count - 1)
-							{
-								width += xEntrySpace
-									height += yEntrySpace
-							}
-							}
-					else
-					{
-						width += formSize + stackSpace
-
-							if (i < count - 1)
-							{
-								width += stackSpace
-							}
-							}
-				}
-
-					return CGSize(width: width, height: height)
+						width += xEntrySpace;
+						height += yEntrySpace;
 					}
+				}
+				else
+				{
+					width += formSize + stackSpace;
+					if (i < count - 1)
+						width += stackSpace;
+				}
+			}
 
-			public var neededWidth = CGFloat(0.0)
-			public var neededHeight = CGFloat(0.0)
-			public var textWidthMax = CGFloat(0.0)
-			public var textHeightMax = CGFloat(0.0)
+			return new CGSize (width, height);
+		}
+
+		public nfloat neededWidth = 0.0f;
+		public nfloat neededHeight = 0.0f;
+		public nfloat textWidthMax = 0.0f;
+		public nfloat textHeightMax = 0.0f;
 
 			/// flag that indicates if word wrapping is enabled
 			/// this is currently supported only for: `BelowChartLeft`, `BelowChartRight`, `BelowChartCenter`.
@@ -167,10 +162,14 @@ namespace scrolling
 			/// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
 			/// 
 			/// **default**: false
-			public var wordWrapEnabled = false
+		public bool wordWrapEnabled = false;
 
 			/// if this is set, then word wrapping the legend is enabled.
-			public var isWordWrapEnabled: Bool { return wordWrapEnabled }
+		public bool isWordWrapEnabled {
+			get {
+				return wordWrapEnabled;
+			}
+		}
 
 			/// The maximum relative size out of the whole chart view in percent.
 			/// If the legend is to the right/left of the chart, then this affects the width of the legend.
@@ -178,56 +177,56 @@ namespace scrolling
 			/// If the legend is the center of the piechart, then this defines the size of the rectangular bounds out of the size of the "hole".
 			/// 
 			/// **default**: 0.95 (95%)
-			public var maxSizePercent: CGFloat = 0.95
+		public nfloat maxSizePercent = 0.95f;
 
-			public func calculateDimensions(labelFont labelFont: UIFont, viewPortHandler: ChartViewPortHandler)
+		public void calculateDimensions(UIFont labelFont, ChartViewPortHandler viewPortHandler)
 		{
-			if (position == .RightOfChart
-				|| position == .RightOfChartCenter
-				|| position == .LeftOfChart
-				|| position == .LeftOfChartCenter
-				|| position == .PiechartCenter)
+			if (position == ChartLegendPosition.RightOfChart
+				|| position == ChartLegendPosition.RightOfChartCenter
+				|| position == ChartLegendPosition.LeftOfChart
+				|| position == ChartLegendPosition.LeftOfChartCenter
+				|| position == ChartLegendPosition.PiechartCenter)
 			{
-				let maxEntrySize = getMaximumEntrySize(labelFont)
-					let fullSize = getFullSize(labelFont)
+				var maxEntrySize = getMaximumEntrySize (labelFont);
+				var fullSize = getFullSize (labelFont);
 
-					neededWidth = maxEntrySize.width
-					neededHeight = fullSize.height
-					textWidthMax = maxEntrySize.width
-					textHeightMax = maxEntrySize.height
+				neededWidth = maxEntrySize.Width;
+				neededHeight = fullSize.Height;
+				textWidthMax = maxEntrySize.Width;
+				textHeightMax = maxEntrySize.Height;
 			}
-			else if (position == .BelowChartLeft
-				|| position == .BelowChartRight
-				|| position == .BelowChartCenter
-				|| position == .AboveChartLeft
-				|| position == .AboveChartRight
-				|| position == .AboveChartCenter)
+			else if (position == ChartLegendPosition.BelowChartLeft
+				|| position == ChartLegendPosition.BelowChartRight
+				|| position == ChartLegendPosition.BelowChartCenter
+				|| position == ChartLegendPosition.AboveChartLeft
+				|| position == ChartLegendPosition.AboveChartRight
+				|| position == ChartLegendPosition.AboveChartCenter)
 			{
-				var labels = self.labels
-					var colors = self.colors
-					let labelCount = labels.count
+				var labels = this.labels;
+				var colors = this.colors;
+				var labelCount = labels.Count;
 
-					let labelLineHeight = labelFont.lineHeight
-					let formSize = self.formSize
-					let formToTextSpace = self.formToTextSpace
-					let xEntrySpace = self.xEntrySpace
-					let stackSpace = self.stackSpace
-					let wordWrapEnabled = self.wordWrapEnabled
+				var labelLineHeight = labelFont.LineHeight;
+				var formSize = this.formSize;
+				var formToTextSpace = this.formToTextSpace;
+				var xEntrySpace = this.xEntrySpace;
+				var stackSpace = this.stackSpace;
+				var wordWrapEnabled = this.wordWrapEnabled;
 
-					let contentWidth: CGFloat = viewPortHandler.contentWidth
+				var contentWidth = viewPortHandler.ContentWidth;
 
 					// Prepare arrays for calculated layout
-					if (calculatedLabelSizes.count != labelCount)
-					{
-						calculatedLabelSizes = [CGSize](count: labelCount, repeatedValue: CGSize())
-					}
+				if (calculatedLabelSizes.Count != labelCount)
+				{
+					calculatedLabelSizes = [CGSize](count: labelCount, repeatedValue: CGSize())
+				}
 
-					if (calculatedLabelBreakPoints.count != labelCount)
-					{
-						calculatedLabelBreakPoints = [Bool](count: labelCount, repeatedValue: false)
-					}
+				if (calculatedLabelBreakPoints.Count != labelCount)
+				{
+					calculatedLabelBreakPoints = [Bool](count: labelCount, repeatedValue: false)
+				}
 
-						calculatedLineSizes.removeAll(keepCapacity: true)
+				calculatedLineSizes.removeAll(keepCapacity: true)
 
 						// Start calculating layout
 
@@ -331,10 +330,10 @@ namespace scrolling
 
 			/// colors and labels that will be appended to the end of the auto calculated colors and labels after calculating the legend.
 			/// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
-			public func setExtra(colors colors: [UIColor?], labels: [String?])
+		public void setExtra(List<UIColor> colors, List<string> labels)
 		{
-			self._extraLabels = labels
-				self._extraColors = colors
+			this._extraLabels = labels;
+			this._extraColors = colors;
 		}
 
 			/// Sets a custom legend's labels and colors arrays.
@@ -344,30 +343,35 @@ namespace scrolling
 			/// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
 			/// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
 			/// Call `resetCustom(...)` to re-enable automatic calculation (and then `notifyDataSetChanged()` is needed).
-			public func setCustom(colors colors: [UIColor?], labels: [String?])
+		public void setCustom(List<UIColor> colors, List<string> labels)
 		{
-			self.labels = labels
-				self.colors = colors
-				_isLegendCustom = true
+			this.labels = labels;
+			this.colors = colors;
+			_isLegendCustom = true;
 		}
 
 			/// Calling this will disable the custom legend labels (set by `setLegend(...)`). Instead, the labels will again be calculated automatically (after `notifyDataSetChanged()` is called).
-			public func resetCustom()
+		public void resetCustom()
 		{
-			_isLegendCustom = false
+			_isLegendCustom = false;
 		}
 
 			/// **default**: false (automatic legend)
 			/// - returns: true if a custom legend labels and colors has been set
-			public var isLegendCustom: Bool
-		{
-			return _isLegendCustom
+		public bool isLegendCustom { 
+			get	{
+				return _isLegendCustom;
 			}
+		}
 
 			/// MARK: - ObjC compatibility
 
 			/// colors that will be appended to the end of the colors array after calculating the legend.
-			public var extraColorsObjc: [NSObject] { return ChartUtils.bridgedObjCGetUIColorArray(swift: _extraColors); }
+		public List<NSObject> extraColorsObjc {
+			get{  
+				return ChartUtils.bridgedObjCGetUIColorArray(_extraColors); 
+			}
+		}
 
 			/// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
 			public var extraLabelsObjc: [NSObject] { return ChartUtils.bridgedObjCGetStringArray(swift: _extraLabels); }
