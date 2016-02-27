@@ -31,45 +31,43 @@ namespace scrolling
 
 		public ChartData ()
 		{
-			_xVals = new string[] { };
-			_dataSets = new IChartDataSet[] {};
+			_xVals = new List<string>();
+			_dataSets = new List<IChartDataSet>();
 		}
 
 
-		public void init(string[] xVals, IChartDataSet[] dataSets)
+        public ChartData(List<string> xVals, List<IChartDataSet> dataSets)
 		{
-			_xVals = xVals ?? new string[] { };
-			_dataSets = dataSets ?? new IChartDataSet[] {};
+			_xVals = xVals ?? new List<string>();
+		    _dataSets = dataSets ?? new List<IChartDataSet>();
 
 			initialize (_dataSets);
 		}
 
-		public void init(NSObject[] xVals, IChartDataSet[] dataSets)
+        public ChartData(List<NSObject> xVals, List<IChartDataSet> dataSets)
 		{
-			_xVals = xVals == null ? new string[] {} : ChartUtils.bridgedObjCGetStringArray(xVals);
-			_dataSets = dataSets ?? new IChartDataSet[] { };
+            _xVals = xVals == null ? new List<string>() : ChartUtils.bridgedObjCGetStringArray(xVals);
+            _dataSets = dataSets ?? new List<IChartDataSet>();
 
 			initialize (_dataSets);
 		}
 
-		public ChartData(string [] xVals)
+        public ChartData(List<string> xVals) : this(xVals, new List<IChartDataSet>())
 		{
-			init (xVals, new IChartDataSet[] { });
 		}
 
-		public ChartData(NSObject[] xVals)
+        public ChartData(List<NSObject> xVals) : this(xVals, new List<IChartDataSet>())
 		{
-			init (xVals, new IChartDataSet[] { });
 		}
 
-		public ChartData(string[] xVals, IChartDataSet dataSet)
+        public ChartData(List<string> xVals, IChartDataSet dataSet)
+            : this(xVals, dataSet == null ? null : new List<IChartDataSet>() { dataSet })
 		{
-			init (xVals, dataSet == null ? null : new IChartDataSet[] { dataSet });
 		}
 
-		public ChartData (NSObject[] xVals, IChartDataSet dataSet)
+        public ChartData(List<NSObject> xVals, IChartDataSet dataSet)
+            : this(xVals, dataSet == null ? null : new List<IChartDataSet> { dataSet })
 		{
-			init (xVals, dataSet == null ? null : new IChartDataSet[] { dataSet });
 		}
 
 		internal void initialize(List<IChartDataSet> dataSets)
@@ -121,7 +119,7 @@ namespace scrolling
 			}
 		}
 
-		public void notifyDataChanged()
+		public virtual void notifyDataChanged()
 		{
 			initialize (_dataSets);
 		}
@@ -168,7 +166,7 @@ namespace scrolling
 					_leftAxisMin = firstLeft.yMin;
 
 					foreach (var dataSet in _dataSets) {
-						if (dataSet.axisDependency == .Left)
+						if (dataSet.axisDependency == ChartYAxis.AxisDependency.Left)
 						{
 							if (dataSet.yMin < _leftAxisMin)
 							{
@@ -192,7 +190,7 @@ namespace scrolling
 					_rightAxisMin = firstRight.yMin;
 
 					foreach (var dataSet in _dataSets) {
-						if (dataSet.axisDependency == .Right)
+                        if (dataSet.axisDependency == ChartYAxis.AxisDependency.Right)
 						{
 							if (dataSet.yMin < _rightAxisMin)
 							{
@@ -251,7 +249,7 @@ namespace scrolling
 
 		public double getYMin(ChartYAxis.AxisDependency axis)
 		{
-			if (axis == .Left)
+            if (axis == ChartYAxis.AxisDependency.Left)
 				return _leftAxisMin;
 			else
 				return _rightAxisMin;
@@ -271,7 +269,7 @@ namespace scrolling
 
 		public double getYMax(ChartYAxis.AxisDependency axis)
 		{
-			if (axis == .Left)
+            if (axis == ChartYAxis.AxisDependency.Left)
 				return _leftAxisMax;
 			else
 				return _rightAxisMax;
@@ -292,7 +290,7 @@ namespace scrolling
 		}
 
 			/// - returns: the x-values the chart represents
-		public string[] xVals {
+		public List<string> xVals {
 			get {
 				return _xVals;
 			}
@@ -332,7 +330,7 @@ namespace scrolling
 		{
 			if (ignorecase)
 			{
-				for (var i = 0; i < dataSets.Length; i++)
+				for (var i = 0; i < dataSets.Count; i++)
 				{
 					if (dataSets[i].label == null)
 					{
@@ -397,7 +395,7 @@ namespace scrolling
 			/// - parameter label:
 			/// - parameter ignorecase:
 			/// - returns: the DataSet Object with the given label. Sensitive or not.
-		public IChartDataSet getDataSetByLabel(string label, bool ignorecase)
+		public virtual IChartDataSet getDataSetByLabel(string label, bool ignorecase)
 		{
 			var index = getDataSetIndexByLabel (label, ignorecase);
 			if (index < 0 || index >= _dataSets.Count)
@@ -406,7 +404,7 @@ namespace scrolling
 				return _dataSets [index];
 		}
 
-		public IChartDataSet getDataSetByIndex(int index)
+		public virtual IChartDataSet getDataSetByIndex(int index)
 		{
 			if (_dataSets == null || index < 0 || index >= _dataSets.Count)
 				return null;
@@ -414,7 +412,7 @@ namespace scrolling
 			return _dataSets [index];
 		}
 
-		public void addDataSet(IChartDataSet d)
+		public virtual void addDataSet(IChartDataSet d)
 		{
 			if (_dataSets == null)
 				return;
@@ -426,7 +424,7 @@ namespace scrolling
 				_yMax = d.yMax;
 				_yMin = d.yMin;
 
-				if (d.axisDependency == .Left) {
+				if (d.axisDependency == ChartYAxis.AxisDependency.Left) {
 						_leftAxisMax = d.yMax;
 						_leftAxisMin = d.yMin;
 				} else {
@@ -440,7 +438,7 @@ namespace scrolling
 				if (_yMin > d.yMin)
 					_yMin = d.yMin;
 
-				if (d.axisDependency == .Left)
+                if (d.axisDependency == ChartYAxis.AxisDependency.Left)
 				{
 					if (_leftAxisMax < d.yMax)
 						_leftAxisMax = d.yMax;
@@ -496,7 +494,7 @@ namespace scrolling
 			/// Also recalculates all minimum and maximum values. 
 			///
 			/// - returns: true if a DataSet was removed, false if no DataSet could be removed.
-		public bool removeDataSetByIndex(int index)
+		public virtual  bool removeDataSetByIndex(int index)
 		{
 			if (_dataSets == null || index >= _dataSets.Count || index < 0)
 				return false;
@@ -524,7 +522,7 @@ namespace scrolling
 					_yMin = val;
 					_yMax = val;
 
-					if (set1.axisDependency == .Left)
+					if (set1.axisDependency == ChartYAxis.AxisDependency.Left)
 					{
 						_leftAxisMax = e.value;
 						_leftAxisMin = e.value;
@@ -541,19 +539,19 @@ namespace scrolling
 					if (_yMin > val)
 						_yMin = val;
 
-					if (set1.axisDependency == .Left)
+                    if (set1.axisDependency == ChartYAxis.AxisDependency.Left)
 					{
-						if (_leftAxisMax < e.value)
-							_leftAxisMax = e.value;
-						
-						if (_leftAxisMin > e.value)
-							_leftAxisMin = e.value;
+                        if (_leftAxisMax < e.value)
+                            _leftAxisMax = e.value;
+
+                        if (_leftAxisMin > e.value)
+                            _leftAxisMin = e.value;
 					} else {
-						if (_rightAxisMax < e.value) 
-							_rightAxisMax = e.value;
-						
-						if (_rightAxisMin > e.value)
-							_rightAxisMin = e.value;
+                        if (_rightAxisMax < e.value)
+                            _rightAxisMax = e.value;
+
+                        if (_rightAxisMin > e.value)
+                            _rightAxisMin = e.value;
 					}
 				}
 
@@ -632,7 +630,7 @@ namespace scrolling
 		public IChartDataSet getFirstLeft()
 		{
 			foreach (var dataSet in _dataSets) {
-				if (dataSet.axisDependency == .Left)
+				if (dataSet.axisDependency == ChartYAxis.AxisDependency.Left)
 					return dataSet;
 			}
 
@@ -643,7 +641,7 @@ namespace scrolling
 		public IChartDataSet getFirstRight()
 		{
 			foreach (var dataSet in _dataSets) {
-				if (dataSet.axisDependency == .Right)
+                if (dataSet.axisDependency == ChartYAxis.AxisDependency.Right)
 					return dataSet;
 			}
 
@@ -660,7 +658,7 @@ namespace scrolling
 
 			for (var i = 0; i < _dataSets.Count; i++)
 			{
-				clrcnt += _dataSets [i].colors.Length;
+				clrcnt += _dataSets [i].colors.Count;
 			}
 
 			var colors = new List<UIColor>();
@@ -677,13 +675,13 @@ namespace scrolling
 		}
 
 			/// Generates an x-values array filled with numbers in range specified by the parameters. Can be used for convenience.
-		public string[] generateXVals(int from, int to)
+		public List<string> generateXVals(int from, int to)
 		{
 			var xvals = new List<string>();
 
 			for (var i = from; i < to; i++)
 			{
-				xvals.Add (i);
+				xvals.Add (i.ToString());
 			}
 			return xvals;
 		}
@@ -751,7 +749,7 @@ namespace scrolling
 			/// Don't forget to invalidate the chart after this.
 		public void clearValues()
 		{
-			dataSets.RemoveAll (false);
+			dataSets.Clear();
 			notifyDataChanged ();
 		}
 
@@ -780,7 +778,7 @@ namespace scrolling
 			/// MARK: - ObjC compatibility
 
 			/// - returns: the average length (in characters) across all values in the x-vals array
-		public NSObject[] xValsObjc {
+		public List<NSObject> xValsObjc {
 			get {
 				return ChartUtils.bridgedObjCGetStringArray (_xVals); 
 			}

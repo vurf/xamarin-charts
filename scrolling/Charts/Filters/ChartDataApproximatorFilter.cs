@@ -94,7 +94,7 @@ namespace scrolling
                 if (keep[i])
                 {
                     var curEntry = entries[i];
-                    reducedEntries.Add(new ChartDataEntry(curEntry.value, curEntry.xIndex));
+                    reducedEntries.Add(new ChartDataEntry(curEntry.Value, curEntry.xIndex));
                 }
             }
             return reducedEntries;
@@ -158,12 +158,12 @@ namespace scrolling
 
             var normalLength = Math.Sqrt((xDiffEndStart)
                                          *(xDiffEndStart)
-                                         + (endEntry.value - startEntry.value)
-                                         *(endEntry.value - startEntry.value));
+                                         + (endEntry.Value - startEntry.Value)
+                                         *(endEntry.Value - startEntry.Value));
 
             return Math.Abs((xDiffEntryStart)
-                            *(endEntry.value - startEntry.value)
-                            - (entryPoint.value - startEntry.value)
+                            *(endEntry.Value - startEntry.Value)
+                            - (entryPoint.Value - startEntry.Value)
                             *(xDiffEndStart))/normalLength;
         }
 
@@ -181,7 +181,7 @@ namespace scrolling
         private double calcAngleWithRatios(ChartDataEntry p1, ChartDataEntry p2)
         {
             var dx = (double) (p2.xIndex)*(double) (deltaRatio) - (double) (p1.xIndex)*(double) (deltaRatio);
-            var dy = p2.value*scaleRatio - p1.value*scaleRatio;
+            var dy = p2.Value*scaleRatio - p1.Value*scaleRatio;
             return Math.Atan2(dy, dx)*ChartUtils.Math2.RAD2DEG;
         }
 
@@ -189,7 +189,7 @@ namespace scrolling
         private double calcAngle(ChartDataEntry p1, ChartDataEntry p2)
         {
             var dx = p2.xIndex - p1.xIndex;
-            var dy = p2.value - p1.value;
+            var dy = p2.Value - p1.Value;
             return Math.Atan2(dy, dx)*ChartUtils.Math2.RAD2DEG;
         }
     }
