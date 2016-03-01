@@ -94,6 +94,8 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Charts\Animations\ChartAnimator.cs" />
+    <Compile Include="Charts\Charts\BarLineChartViewBase.cs" />
     <Compile Include="Charts\Components\ChartLimitLine.cs" />
     <Compile Include="Charts\Components\ChartMarker.cs" />
     <Compile Include="Charts\Data\IBarChartDataSet.cs" />
@@ -162,7 +164,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Charts\Animations\" />
     <Folder Include="Charts\Interface\" />
   </ItemGroup>
 </Project>

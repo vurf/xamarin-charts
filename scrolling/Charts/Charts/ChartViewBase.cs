@@ -23,7 +23,7 @@ namespace scrolling
 		void chartTranslated(ChartViewBase chartView, nfloat dX, nfloat dY);
 	}
 
-	public class ChartViewBase : UIView
+	public class ChartViewBase : UIView 
 	{
 
 		/// the default value formatter
