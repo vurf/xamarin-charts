@@ -196,11 +196,9 @@ namespace scrolling
         /// - parameter yAxisDuration: duration for animating the y axis
         /// - parameter easingOptionX: the easing function for the animation on the x axis
         /// - parameter easingOptionY: the easing function for the animation on the y axis
-        public void animate(nfloat xAxisDuration, nfloat yAxisDuration, ChartEasingOption easingOptionX,
-            ChartEasingOption easingOptionY)
+        public void animate(nfloat xAxisDuration, nfloat yAxisDuration, ChartEasingOption easingOptionX, ChartEasingOption easingOptionY)
         {
-            animate(xAxisDuration, yAxisDuration, easingFunctionFromOption(easingOptionX),
-                easingFunctionFromOption(easingOptionY));
+			animate(xAxisDuration, yAxisDuration, EasingFunctions.easingFunctionFromOption(easingOptionX), EasingFunctions.easingFunctionFromOption(easingOptionY));
         }
 
         /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -220,7 +218,7 @@ namespace scrolling
         /// - parameter easingOption: the easing function for the animation
         public void animate(nfloat xAxisDuration, nfloat yAxisDuration, ChartEasingOption easingOption)
         {
-            animate(xAxisDuration, yAxisDuration, easingFunctionFromOption(easingOption));
+			animate(xAxisDuration, yAxisDuration, EasingFunctions.easingFunctionFromOption(easingOption));
         }
 
         /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -229,8 +227,7 @@ namespace scrolling
         /// - parameter yAxisDuration: duration for animating the y axis
         public void animate(nfloat xAxisDuration, nfloat yAxisDuration)
         {
-            animate(xAxisDuration, yAxisDuration, .EaseInOutSine)
-            ;
+			animate(xAxisDuration, yAxisDuration, ChartEasingOption.EaseInOutSine);
         }
 
         /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -267,7 +264,7 @@ namespace scrolling
         /// - parameter easingOption: the easing function for the animation
         public void animate(nfloat xAxisDuration, ChartEasingOption easingOption)
         {
-            animate(xAxisDuration, easingFunctionFromOption(easingOption));
+			animate(xAxisDuration, EasingFunctions.easingFunctionFromOption(easingOption));
         }
 
         /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -275,7 +272,7 @@ namespace scrolling
         /// - parameter xAxisDuration: duration for animating the x axis
         public void animate(nfloat xAxisDuration)
         {
-            animate(xAxisDuration, .EaseInOutSine)
+			animate(xAxisDuration, ChartEasingOption.EaseInOutSine)
             ;
         }
 
@@ -313,7 +310,7 @@ namespace scrolling
         /// - parameter easingOption: the easing function for the animation
         public void animate(nfloat yAxisDuration, ChartEasingOption easingOption)
         {
-            animate(yAxisDuration, easingFunctionFromOption(easingOption));
+			animate(yAxisDuration, EasingFunctions.easingFunctionFromOption(easingOption));
         }
 
         /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
@@ -321,7 +318,7 @@ namespace scrolling
         /// - parameter yAxisDuration: duration for animating the y axis
         public void animate(nfloat yAxisDuration)
         {
-            animate(yAxisDuration, .EaseInOutSine)
+			animate(yAxisDuration, ChartEasingOption.EaseInOutSine)
             ;
         }
 

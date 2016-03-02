@@ -161,6 +161,7 @@
     <Compile Include="Charts\Components\ChartXAxis.cs" />
     <Compile Include="Charts\Utils\ChartUtils.cs" />
     <Compile Include="Charts\Components\ChartLegend.cs" />
+    <Compile Include="Charts\Animations\ChartAnimationEasing.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
